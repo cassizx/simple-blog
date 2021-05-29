@@ -1,5 +1,4 @@
 {% block nav %}
-
 <nav class="navbar navbar-expand-lg nav">
   <a class="navbar-brand" href="/" style="margin: 0 10px 0 0; padding:0 0 ;">
     <img src="{{ url_for('static', filename='logo/main.svg') }}" alt="logo"  width="40px" height="40px">
@@ -11,6 +10,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+      {% if session['username'] %}
         <li class="nav-item active">
           <a class="nav-link" href="/feed">Новости<span class="sr-only">(current)</span></a>
          </li>
@@ -20,6 +20,7 @@
           <li class="nav-item active">
               <a class="nav-link" href="/chat">Чаты<span class="sr-only">(current)</span></a>
           </li>
+      {% endif %}
       </ul>
       {% if session['username'] %}
       <div class="logout_block">

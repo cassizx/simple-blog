@@ -46,12 +46,12 @@
           </li>
           {% for user in data.users %}
             {% if user.username != session['username'] %}
-            <li>
+            <li id='{{ user.username }}'>
                 <a href="/chat/{{user.username}}">
-                    <i class="fa fa-rocket"></i>
+                    <!-- <i class="fa fa-rocket"></i> -->
                     <span>{{user.username}}</span>
                     <img src="/avatars/{{ user.avatar }}" alt="avatar" width="130" class="msg-img aside_avatar">
-                    <i class="fa fa-times pull-right"></i>
+                    <!-- <i class="fa fa-times pull-right"></i> -->
                 </a>
 
             </li>

@@ -32,7 +32,6 @@ const msgerChat = get(".msger-chat");
 const bottomArrov = get(".to_bottom_arrov")
 const notificationUrl = "http://zasx.tmweb.ru/sounds/notification_new_message.mp3"
 
-// Icons made by Freepik from www.flaticon.com
 // const PERSON_IMG = 'url("https://sun9-44.userapi.com/impf/c626528/v626528545/26a76/3zGUYjAshtU.jpg?size=900x900&quality=96&sign=bef06132184dc40b6740b17468d4c699&type=album")';
 const PERSON_IMG = 'url("' + get('.nav-avatar').src + '")';
 // get(".msg-img").style.backgroundImage ||
@@ -72,7 +71,7 @@ window.addEventListener("load", function() {
 // })
 
 msgerForm.addEventListener("submit", event => {
-    console.log('socket_private', 'http://' + document.domain ) //+ '/private')
+    // console.log('socket_private', document.domain )
 
     event.preventDefault();
     const msgText = msgerInput.value;
@@ -91,8 +90,7 @@ msgerForm.addEventListener("submit", event => {
 });
 
 function appendMessage(name, img, side, text) {
-  //   Simple solution for small apps
-  console.log(img)
+  // console.log(img)
   const msgHTML = `
     <div class="msg ${side}-msg">
       <span aria-label="Ответить" class="reply"></span>
@@ -136,10 +134,19 @@ function replyToMessage(event) {
 
 socket_private.on( 'direct message response', function( msg ) {
     // console.log( msg.user_name, PERSON_IMG, "left", msg.message)
-    console.log(msg)
-    if( typeof msg !== 'undefined' && msg.sender != PERSON_NAME ) {
+    // console.log(msg)
+    if( typeof msg !== 'undefined' && msg.sender != PERSON_NAME && (window.location.pathname.split('/')[2] == msg.sender) ) {
       appendMessage(msg.sender, PERSON_IMG, "left", msg.text)
       playSound(notificationUrl)
+    } else if (typeof msg !== 'undefined' && msg.sender != PERSON_NAME) {
+        item = get(`#${ msg.sender }`)
+        console.log(item.children)
+        const newMSG = `
+          <span aria-label="Новое сообщение">
+          &#128293;
+          </span>
+        `;
+        item.children[0].insertAdjacentHTML("beforeend", newMSG);
     }
 })
 
