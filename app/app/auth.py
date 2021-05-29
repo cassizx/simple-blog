@@ -3,7 +3,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash, ses
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import DataError, IntegrityError
 from .models import User
-from .utils import ts
+from .utils import ts, confirm_token, generate_confirmation_token
 from .email_sender import send_email
 from flask_bcrypt import generate_password_hash, check_password_hash
 
@@ -167,19 +167,18 @@ def reset():
 
 @app.route('/reset/<token>', methods=["GET", "POST"])
 def reset_with_token(token):
-
     if request.method == 'GET':
         return render_template('reset_with_token.html', token=token)
 
     try:
         return reset_with_token_(token)
     except Exception as err:
-        print(err)
+        app.logger.error(err)
         abort(404)
 
 
 def reset_password(email):
-    print(f'{email} request for reset')
+    app.logger.error(f'{email} request for reset')
     user = User.query.filter_by(email=email).first()
     #     if not request.json or not 'firstName' or not 'lastName' in request.json:
 
@@ -207,7 +206,9 @@ def reset_password(email):
 def reset_with_token_(token):
 
     email = ts.loads(token, salt=salt, max_age=86400)
-    # print(email)
+    app.logger.error(email)
+    # TODO Добавить обработку случая когда истёк срок
+    # действия токена Signature age 512049 > 86400 seconds
     user = User.query.filter_by(email=email).first_or_404()
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')

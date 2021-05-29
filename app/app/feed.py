@@ -2,8 +2,7 @@ from flask import session
 from .models import Posts, User
 from app import app, db
 from sqlalchemy import  desc  # or_, and_, asc, desc, inspect, update, desc
-from flask import request, render_template, redirect, send_from_directory, session
-
+from flask import request, render_template, redirect, send_from_directory, session, url_for
 
 
 @app.route('/feed', methods=['GET'])
