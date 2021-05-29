@@ -1,0 +1,224 @@
+.profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888;
+}
+/* POST modal */
+
+.modal-window {
+    position: fixed;
+    background-color: rgba(151, 151, 151, 0.33);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+}
+
+.modal-window:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-window > div {
+    width: 650px;
+    max-height: 900px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: white;
+    align-items: center;
+}
+
+.modal-window header {
+    font-weight: bold;
+}
+.post-img{
+    max-height: 600px;
+    max-width: 590px;
+    align-items: center;
+    /* width: 650px; */
+    /* margin-left: 25%; */
+    /* padding: 0 auto; */
+}
+
+.modal-close {
+    color: black;
+    line-height: 50px;
+    font-size: 85%;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 70px;
+    text-decoration: none !important;
+}
+.modal-close:hover {
+    color: black;
+}
+
+.edit_form_image_label{
+    padding: 0 0 !important;
+    margin: 0;
+    margin-left: 1rem;
+    width: 554px !important;
+}
+
+/* Demo Styles */
+
+html, body {
+    height: 100%;
+    font-family: "Poppins", sans-serif;
+
+}
+html{
+    width: 100% !important;
+}
+/* html {
+    font-size: 18px;
+    line-height: 1.4;
+} */
+body {
+    font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    /* min-height: 100vh; */
+    color: black;
+}
+
+.flashes{
+    animation-name: myAnimation;
+    animation-duration: 5000ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes myAnimation{
+    0%{
+        opacity: 1;
+
+    }
+
+    75%{
+        opacity: 0.9;
+
+    }
+
+    100%{
+        display: none;
+        opacity: 0;
+
+    }
+}
+
+a {
+    color: inherit;
+}
+
+.container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.modal-window > div {
+    border-radius: 2rem;
+}
+
+.modal-window div:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+small {
+    color: lightgray;
+}
+
+.btn {
+    background-color: white;
+    padding: 1em 1.5em;
+    border-radius: 1rem;
+    text-decoration: none;
+}
+
+.btn i {
+    padding-right: 0.3em;
+}
+
+.row-no-margin{
+    margin-right: 15px !important;
+    margin-left: 15px !important;
+}
+
+/* POST MODAL*/
+.image_url{
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+hr{
+    margin: 0 0;
+    padding: 0 0;
+}
+
+form{
+    padding: 0 0 !important;
+    margin: 0 0 !important;
+}
+
+
+.avatar{
+    margin: 0 auto;
+}
+
+.edit{
+    padding-bottom: 0 !important;
+    padding-top: 1%;
+}
+
+.edit-form-main-div{
+
+    background-color: rgba(151, 151, 151, 0.33);
+}
+
+.post-preview{
+    max-height: 300px;
+}
+.post-preview img{
+    width: 290px;
+    height: 290px;
+    max-height: 300px;
+    max-width: 300px;
+}

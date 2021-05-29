@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Flask app</title>
+<meta charset="UTF-8">
+
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/user.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chat/main.css') }}">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<header class="nav-header">
+  <!------ NAV ---------->
+  {% include "base-nav.html" %}
+  <!------ NAV END ---------->
+</header>
+
+<div class="wrapper">
+  <section class="msger chat-list-section ">
+    <!-- start:aside kiri chat room -->
+    <aside class="kiri-side">
+      <header class="msger-header">
+        <div class="msger-header-title">
+          <h4>Чат</h4>
+        </div>
+      </header>
+      <ul class="chat-list">
+        <li class="">
+            <a class="lobby" href="/chat">
+                <h4>
+                    <i class="fa fa-list"></i>
+                    Общий чат
+                </h4>
+            </a>
+        </li>
+        {% for user in data.users %}
+            {% if user.username != session['username'] %}
+            <li>
+                <a href="/chat/{{user.username}}">
+                    <i class="fa fa-rocket"></i>
+                    <span>{{user.username}}</span>
+                    <i class="fa fa-times pull-right"></i>
+                </a>
+            </li>
+            {% endif %}
+          {% endfor %}
+    </ul>
+  </aside>
+  <!-- end:aside kiri chat room -->
+</section>
+<section class="msger">
+  <header class="msger-header">
+    <div class="msger-header-title">
+      <!-- <i class="fas fa-comment-alt"></i>  -->
+      <span>Общий чат</span>
+    </div>
+    <div class="msger-header-options">
+      <span><i class="fas fa-cog"></i></span>
+    </div>
+  </header>
+  <main class="msger-chat">
+    <span href="#last" class='to_bottom_arrov'></span>
+      {% if message_history  %}
+        {% for message in message_history %}
+            {% if message.sender != session['username'] %}
+            <div class="msg left-msg">
+            {% else %}
+            <div class="msg right-msg">
+            {% endif %}
+                <div class="msg-img" style="background-image: url(https://sun9-44.userapi.com/impf/c626528/v626528545/26a76/3zGUYjAshtU.jpg?size=900x900&quality=96&sign=bef06132184dc40b6740b17468d4c699&type=album)"> </div>
+                <div class="msg-bubble">
+                    <div class="msg-info">
+                        <div class="msg-info-name">{{message.sender}}</div>
+                        <div class="msg-info-time">{{message.sending_time.strftime('%d.%m.%Y %H:%M')}}</div>
+                    </div>
+                    <div>
+                      {%  if loop.last  %}
+                      <div class="msg-text" id="last" href="" autofocus>
+                      {%else%}
+                      <div class="msg-text">
+                      {% endif %}
+                        <p> {{message.message_text}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+  </main>
+  <form class="msger-inputarea">
+    <input type="text" class="msger-input" placeholder="Enter your message...">
+    <button type="submit" class="msger-send-btn">Send</button>
+  </form>
+</section>
+</div>
+<!-- <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"> </script> -->
+<script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/chat/main.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Flask app</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/users-list.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/user.ico') }}" type="image/x-icon">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+{% endblock %}
+{% block body %}
+
+<header class="nav-header">
+    <!------ NAV ---------->
+    {% include "base-nav.html" %}
+    <!------ NAV END ---------->
+</header>
+
+
+<div class="d-flex justify-content-between align-items-center flex-column">
+{% for user in data.users %}
+    {% if user.username != session['username'] %}
+    <div class="card p-2">
+        <div class="d-flex align-items-bottom">
+            <div class="image">
+                {% if user.avatar  %}
+                <img src="avatars/{{ user.avatar }}" class="rounded" width="155"> 
+                {% else %}
+                <img src="https://sun9-44.userapi.com/impf/c626528/v626528545/26a76/3zGUYjAshtU.jpg?size=900x900&quality=96&sign=bef06132184dc40b6740b17468d4c699&type=album" class="rounded" width="155">
+                {% endif %}
+            </div>
+            <div class="ml-3 w-100">
+                <h4 class="mb-0 mt-0">
+                    <a href="/user/{{user.username}}">
+                        {{user.username}}
+                    </a>
+                </h4>
+                {% if user.about  %}
+                    <span class="list_users_about">{{ user.about }}</span>
+                {% else %}
+                    <span class="list_users_about">Нет информации о себе</span>
+                {% endif %}
+                <div class="button mt-2 d-flex flex-row align-items-center">
+                    <a href='/chat/{{user.username}}'>
+                        <div class="btn btn-sm btn-outline-primary w-100">
+                            <span>Чат</span>
+                        </div>
+                    </a>
+                    <a href='/follow/{{user.username}}'>
+                        <button class="btn btn-sm btn-dark w-100 ml-2">
+                           <span>Подписаться</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endfor %}
+</div>
+<script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/chat/direct.js') }}"></script>
+
+{% endblock %}

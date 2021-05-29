@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+<body>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+    <form class="login-form" action="{{ url_for('reset_with_token', token=token) }}" method="POST">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="notification is-succes">
+            {{ messages[0] }}
+        </div>
+    {% endif %}
+    {% endwith %}
+            <div class="fadeIn first logo">
+                <img src="{{ url_for('static', filename='logo/main.svg') }}" width='95px' heigth='95px'>
+            </div>
+            <div class="fadeIn first">
+                <h5>Введите новый пароль</h5>
+            </div>
+        <input type="password" name="password1" class="login-username" autofocus="true" required="true" placeholder="Новый пароль" />
+        <input type="password" name="password2" class="login-username" autofocus="true" required="true" placeholder="Повторите новый пароль" />
+        <input type="submit" name="Change password" value="Сменить пароль" class="login-submit" />
+    </form>
+
+</div>
+</div>
+</body>
+{% endblock %}

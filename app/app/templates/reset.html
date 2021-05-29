@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block body %}
+<body>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <form class="login-form" action="/reset" method="POST">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-succes">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+            <div class="fadeIn first logo">
+                <img src="{{ url_for('static', filename='logo/main.svg') }}" width='95px' heigth='95px'>
+            </div>
+            <div class="fadeIn first">
+                <h5>Введите Ваш email</h5>
+            </div>
+            <input type="text" id="reset_password_email" class="fadeIn second" name="email" placeholder="E-mail" required>
+            <input type="submit" name="reset" value="Сбросить пароль" class="login-submit" />
+        </form>
+
+    </div>
+</div>
+</body>
+{% endblock %}

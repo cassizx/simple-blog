@@ -1,0 +1,11 @@
+flask
+psycopg2-binary
+Flask-SQLAlchemy
+Flask-Script
+flask-bcrypt
+Flask-Migrate
+flask-socketio
+sqlalchemy-utils
+itsdangerous
+Flask-Mail
+flask_login

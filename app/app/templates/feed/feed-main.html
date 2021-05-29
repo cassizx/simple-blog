@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Flask app</title>
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}"> -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/feed/feed.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/user.ico') }}" type="image/x-icon">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+{% endblock %}
+{% block body %}
+
+<header class="nav-header">
+    <!------ NAV ---------->
+    {% include "base-nav.html" %}
+    <!------ NAV END ---------->
+</header>
+<main>
+
+
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-8">
+            <div class="feed p-2">
+                <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white border">
+                    <div class="feed-text px-2">
+                        <h6 class="text-black-50 mt-2">What's on your mind</h6>
+                    </div>
+                    <div class="feed-icon px-2"><i class="fa fa-long-arrow-up text-black-50"></i></div>
+                </div>
+
+                {% for post in posts %}
+
+                <div class="bg-white border mt-2">
+                    <div>
+                        <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
+                            <div class="d-flex flex-row align-items-center feed-text px-2">
+                                {% if post.owner == data.user.username  %}
+                                <img class="rounded-circle" src="avatars/{{ data.user.avatar }}" width="45">
+                                {% else %}
+                                <img class="rounded-circle" src="https://sun9-44.userapi.com/impf/c626528/v626528545/26a76/3zGUYjAshtU.jpg?size=900x900&quality=96&sign=bef06132184dc40b6740b17468d4c699&type=album" width="45">
+                                {% endif %}
+                                <div class="d-flex flex-column flex-wrap ml-2">
+                                    <a href="/user/{{ post.owner }}" class="font-weight-bold post_owner">
+                                        {{ post.owner }}
+                                    </a>
+                                    <span class="text-black-50 time">
+                                        {{ post.created_at.strftime('%d.%m.%Y %H:%M') or None }} 
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="feed-icon px-2">
+                                <div class="dropdown dropdown_post">
+                                <a href="#" class="post_owner">
+                                    <i class="fas fa-ellipsis-v post_owner post_menu"></i>
+                                </a>
+                                    <div class="dropdown_post_content dropdown-content">
+                                        <a href="#">Пожаловаться</a>
+                                        <!-- <a href="#">Link 2</a> -->
+                                        <!-- <a href="#">Link 3</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feed-image p-2 px-3">
+                        <img class="img-responsive" src="/uploads/{{post.image_url}}">
+                    </div>
+                    <div class="d-flex flex-row justify-content-between align-items-center p-2  border-top border-bottom">
+                        <p>
+                            {{post.body}}
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-end socials p-2 py-3">
+                        <i class="fa fa-thumbs-up"></i>
+                        <i class="fa fa-comments"></i>
+                        <i class="fa fa-share"></i>
+                        <!-- <i class="bi bi-share"></i> -->
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+
+{% endblock %}

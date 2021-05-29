@@ -1,0 +1,266 @@
+{% if data.username != [] %}
+
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Flask app</title>
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/user.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/userpage/userpage-main.js') }}"></script>
+
+{% endblock %}
+{% block body %}
+
+
+<header class="nav-header">
+    <!------ NAV ---------->
+    {% include "base-nav.html" %}
+    <!------ NAV END ---------->
+</header>
+
+ <div class="">
+   <div class="row py-4 px-4 row-no-margin">
+        <div class="col-md-5 mx-auto">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert flashes alert-danger" role="alert"  width='100px' heigth='100px'>
+                <div>
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+            <!-- Profile widget -->
+            <div class="bg-white shadow rounded overflow-hidden">
+                <div class="px-4 pt-0 pb-4 cover">
+                    <div class="media align-items-end profile-head">
+                        <div class="profile mr-3">
+                            <!-- <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" alt="..." width="130" class="rounded mb-2 img-thumbnail"> -->
+                            {% if data.user.avatar %}
+                            <img src="/avatars/{{ data.user.avatar }}" lt="avatar" width="130" class="rounded mb-2 img-thumbnail avatar">
+                            {% else %}
+                            <img src="https://sun9-44.userapi.com/impf/c626528/v626528545/26a76/3zGUYjAshtU.jpg?size=900x900&quality=96&sign=bef06132184dc40b6740b17468d4c699&type=album" alt="avatar" width="130" class="rounded mb-2 img-thumbnail avatar">
+                            {% endif %}
+                            <!--  -->
+                            {% if session['username'] and session['username'] == data.username %}
+                            <a href="#edit" class="btn btn-outline-dark btn-sm btn-block">
+                                Редактировать
+                            </a>
+
+                            {% elif session['username'] %}
+                                <a href="/following" class="btn btn-outline-dark btn-sm btn-block">
+                                    Подписаться
+                                </a>
+                            {% else%}
+                            {% endif %}
+                        </div>
+                        <div class="media-body mb-5 text-white">
+                            <h4 class="mt-0 mb-0">{{ data.user.first_name or data.user.username }} {{ data.user.last_name or '' }}</h4>
+                            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i> {{ data.user.live_city or "New York" }} </p>
+                        </div>
+                    </div>
+                    <div id="edit" class="modal-window edit-form-main-div">
+                        <div class="edit">
+                            <h3>Данные профиля</h3>
+                            <form action="/edit" method="POST" class="p-3 py-5" enctype="multipart/form-data"> <!--enctype="multipart/form-data" > -->
+                                <a href="#" title="Close" class="modal-close">X</a>
+                                <!-- <div>
+                                    <input type="file" name="file" id="" placeholder="URL"> Аватар
+                                </div> -->
+                                <div  class="row">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <label class="custom-file-label edit_form_image_label"  for="inputGroupFile03">Выберете аватар</label>
+                                            <input type="file" name="avatar" class="custom-file-input form-control edit_form_image_label" id="inputGroupFile03">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <input class="form-control" type="text" name="first_name" id="" placeholder="Имя" value="{{ data.user.first_name or ''}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <input class="form-control" type="text" name="last_name" id="" placeholder="Фамилия" value="{{ data.user.last_name or '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <input class="form-control" type="text" name="email" id="" placeholder="E-mail" value="{{ data.user.email or '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <input class="form-control" type="text" name="is_email_confirmed" id="" placeholder="Стутус E-mail" value="{% if data.user.is_email_confirmed %} Подтверждён {% else %} Не подтверждён {% endif %}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <input class="form-control" type="text" name="live_city" id="" placeholder="Город" value="{{ data.user.live_city or '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <input class="form-control" type="text" name="live_country" id="" placeholder="Страна" value="{{ data.user.live_country or '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12"">
+                                        <div>
+                                            <textarea class="form-control" name="about" id="" cols="50" rows="3" placeholder="О себе" value="">{{ data.user.about or '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input type="submit" class="btn btn-info" name="edit" id="">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-light p-4 d-flex justify-content-end text-center">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">
+                                {% if data.posts %}
+                                    {{ data.posts |length }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </h5>
+                            <small class="text-muted">
+                                <i class="fas fa-image mr-1">
+                                </i>Записи
+                            </small>
+                        </li>
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">
+                                {% if data.followers %}
+                                    {{ data.followers |length }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </h5>
+                            <small class="text-muted">
+                                <i class="fas fa-user mr-1">
+                                </i>Подписчики
+                            </small>
+                        </li>
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">
+                                {% if data.following_count %}
+                                    {{data.following_count}}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </h5>
+                            <small class="text-muted">
+                                <i class="fas fa-user mr-1"></i>
+                                Подписан
+                            </small>
+                        </li>
+                    </ul>
+                </div>
+                <div class="px-4 py-3">
+                    <h5 class="mb-0">О себе</h5>
+                    <div class="p-4 rounded shadow-sm bg-light">
+                        {% if data.user.about %}
+                            <p class="font-italic mb-0">{{ data.user.about }}</p>
+                        {% else %}
+                            <p class="font-italic mb-0">Здесь пока-что ничего нет</p>
+                        {% endif %}
+                        {#{{data.user}}#}
+                    </div>
+                </div>
+                <div class="py-4 px-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="mb-0">Все записи</h5>
+                        <a href="#" class="btn btn-link text-muted">Показать все записи</a>
+                        {% if session['username'] %}
+                        <a href="#open-modal-create-post" class="btn btn-link text-muted">Добавить запись</a>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        {% if session['username'] %}
+                        <!-- CREATE POST FORM -->
+                        <div id="open-modal-create-post" class="modal-window">
+                            <div>
+                                <a href="#" title="Close" class="modal-close">X</a>
+                              <h1>New post</h1>
+                              <br>
+                              <form action="/post/create" method="POST" enctype="multipart/form-data">
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+
+                                            <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                            <input type="file" name="file" class="custom-file-input" id="inputGroupFile03">
+                                            <!-- <label class="form-label" for="customFile">Default file input example</label>
+                                            <input type="file" class="form-control" id="customFile" /> -->
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <textarea name="body" class="form-control" id="" cols="45" rows="3" placeholder="BODY"></textarea>
+                                    </div>
+                                    <div>
+                                        <input type="submit" class="btn btn-success" name="create-post" id="">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- CREATE POST FORM -->
+                        {% endif %}
+
+                        <!-- POST  -->
+                        {% for post in data.posts  %}
+                        <div class="col-lg-6 pl-lg-1">
+                            <a class="btn post-preview" href="#open-modal-{{ post.id }}">
+                                <!-- <img src="{{post.image_url}}" alt="" class="img-fluid rounded shadow-sm"> -->
+                                <img src="/uploads/{{post.image_url}}" alt="" class="img-fluid rounded shadow-sm">
+                                <!-- <img src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"> -->
+                            </a>
+                        </div>
+                        <div id="open-modal-{{ post.id }}" class="modal-window">
+                            <div>
+                                <a href="#" title="Close" class="modal-close">X</a>
+                                <br>
+                                <div>
+                                    <img src="{{post.image_url}}" alt="" class="img-fluid rounded shadow-sm post-img">
+                                    <img src="/uploads/{{post.image_url}}" alt="" class="img-fluid rounded shadow-sm post-img">
+                                </div>
+                                <div class="dropdown">
+                                    <button class="dropbtn">More</button>
+                                    <div class="dropdown-content">
+                                        <a href="#">Link 1</a>
+                                        <a href="#">Link 2</a>
+                                        <a href="#">Link 3</a>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div>
+                                    <span>
+                                     {{post.body}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!-- END POST -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% else %}
+    {% extends '404.html' %}
+{% endif %}
+

@@ -1,0 +1,92 @@
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888;
+}
+
+.dropdown-content a {
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    /* text-decoration: none; */
+    /* cursor: pointer; */
+    color: black;
+    background-color: blanchedalmond;
+}
+
+.nav{
+    background-color: rgb(17, 17, 17) !important;
+}
+
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: absolute;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 170px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    /* top: 175%; */
+    right: 20%;
+
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    text-align: left;
+    color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #9ed7e9;}
+
+.logout_block{
+    position: absolute;
+    right: 3%;
+    margin: 0 auto;
+}
+.logout_block div, img{
+    margin-left: 10px;
+
+}
+.username{
+font-size: 14;
+font-family: 'Courier New', Courier, monospace;
+color: beige;
+}
+.to_bottom_arrov::before {
+content: '▼';
+cursor: pointer;
+text-decoration: none;
+color: beige;
+}
+.nav-link{
+    color: beige;
+
+}

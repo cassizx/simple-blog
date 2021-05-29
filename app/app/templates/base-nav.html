@@ -1,0 +1,44 @@
+{% block nav %}
+
+<nav class="navbar navbar-expand-lg nav">
+  <a class="navbar-brand" href="/" style="margin: 0 10px 0 0; padding:0 0 ;">
+    <img src="{{ url_for('static', filename='logo/main.svg') }}" alt="logo"  width="40px" height="40px">
+  </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/feed">Новости<span class="sr-only">(current)</span></a>
+         </li>
+          <li class="nav-item active">
+              <a class="nav-link" href="/users">Люди<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+              <a class="nav-link" href="/chat">Чаты<span class="sr-only">(current)</span></a>
+          </li>
+      </ul>
+      {% if session['username'] %}
+      <div class="logout_block">
+          <span class="username"> {{ data.user.first_name or session['username'] }} {{ data.user.last_name or '' }}</span>
+          {% if data.user.avatar %}
+            <img src="/avatars/{{ data.user.avatar }}"  class="mb-2 img-thumbnail nav-avatar" alt="avatar" style="border-radius: 50%;" width="50" height="50">
+          {% else %}
+            <img src="https://sun9-44.userapi.com/impf/c626528/v626528545/26a76/3zGUYjAshtU.jpg?size=900x900&quality=96&sign=bef06132184dc40b6740b17468d4c699&type=album" class="nav-avatar" alt="avatar" style="border-radius: 50%;" width="50" height="50">
+          {% endif %}
+            <div class="dropdown">
+              <span class='to_bottom_arrov'></span>
+              <div class="dropdown-content">
+                  <!-- <a href="#">Link 1</a> -->
+                  <a href="#">Настройки</a>
+                  <a href="/logout">Выйти</a>
+              </div>
+            </div>
+        </div>
+      {% endif %}
+    </div>
+  </nav>
+  {% endblock nav %}
