@@ -2,13 +2,17 @@ FROM python:3.9-slim
 
 WORKDIR /usr/backend/
 
-RUN apt update &&  \
-    apt install -y \
-    curl && \
-    rm -rf /var/lib/apt/lists/*
+RUN groupadd --gid 2000 app \
+    && useradd --uid 2000 --gid app --shell /bin/bash --create-home app
 
-COPY requirements.txt requirements.txt
+COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY --chown=app:app . .
+
+USER app
+
+ENTRYPOINT ["python3"]
+
+CMD ["run.py"]

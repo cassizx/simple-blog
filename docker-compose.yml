@@ -4,8 +4,7 @@ services:
     flask-app:
         build: app
         container_name: flask-app
-        # command: flask run -h 0.0.0.0 -p 5000
-        command: python run.py
+        # command: python run.py
         restart: always
         volumes:
         - ./app/:/usr/backend/
@@ -17,6 +16,7 @@ services:
     nginx:
         image: nginx:stable-alpine
         container_name: flask-app-nginx
+        restart: always
         ports:
             - "80:80"
         volumes:
@@ -40,16 +40,3 @@ services:
             - 8080:8080
         depends_on:
             - flask-app-db
-
-    # flask-app-pgadmin:
-    #     container_name: flask-app-pgadmin
-    #     image: dpage/pgadmin4
-    #     env_file:
-    #         - .env-db
-    #     # ports:
-    #     #     - '5050:80'
-    #     volumes:
-    #         - ./pgadmin:/root/.pgadmin
-    #     restart: unless-stopped
-    #     depends_on:
-    #         - flask-app-db
