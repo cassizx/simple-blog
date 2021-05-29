@@ -12,7 +12,7 @@ users = {}
 
 ### CHAT
 ## https://codeburst.io/building-your-first-chat-application-using-flask-in-7-minutes-f98de4adfa5d
-@app.route('/chat', methods=['GET'])
+@app.route('/chat/', methods=['GET'])
 def get_chat_page():
     error = None
     if 'username' in session:
@@ -119,7 +119,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
                            message_text=json.get('message'))
         db.session.add(message)
         db.session.commit()
-    print('received my event: ' + str(json))
+    app.logger.debug('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
 
 ##
