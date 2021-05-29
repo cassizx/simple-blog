@@ -9,3 +9,4 @@ sqlalchemy-utils
 itsdangerous
 Flask-Mail
 flask_login
+eventlet==0.31.0
